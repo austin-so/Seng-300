@@ -11,11 +11,15 @@ public class Bagging {
 	 */
 	
 	public int itemWeight() {
-		ScanItem items = new ScanItem();
+		Item x = new Item();
 		
+		
+		int barcode = items[items.length-1];
+		int weight = 
 		return 0;
 		
 	}
+	
 	/*
 	 * if scale detect added weight +- sensitivity, signal
 	 */
@@ -23,4 +27,8 @@ public class Bagging {
 	/*
 	 * if scale detect remove, throw exception
 	 */
+	public void baggingProcess() {
+		ElctronicScale
+		
+	}
 }
