@@ -11,7 +11,7 @@ import org.lsmr.selfcheckout.devices.BarcodeScanner;
  */
 public class ScanItem {
 private BarcodedItem item;
-	private ArrayList<Barcode> storeItemCode; 
+private ArrayList<Barcode> storeItemCode; 
 	
 	/**
 	 * 
