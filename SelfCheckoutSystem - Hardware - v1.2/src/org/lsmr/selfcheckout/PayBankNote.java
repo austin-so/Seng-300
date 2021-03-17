@@ -12,8 +12,9 @@ import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.devices.UnidirectionalChannel;
 
 
+
 public class PayBankNote {
- private BanknoteStorageUnit capacity = new BanknoteStorageUnit(500);
+	private BanknoteStorageUnit capacity = new BanknoteStorageUnit(500);
 	private Banknote banknote = new Banknote(0, null);
 	
 	/**
@@ -56,5 +57,3 @@ public class PayBankNote {
 	}
 
 }
-
-
