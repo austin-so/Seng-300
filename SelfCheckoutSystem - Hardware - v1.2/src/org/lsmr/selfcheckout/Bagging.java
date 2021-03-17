@@ -34,7 +34,7 @@ public class Bagging {
 	 * if scale detect remove, throw exception
 	 */
 	public void baggingProcess() {
-		ElctronicScale
+
 		
 	}
 }
