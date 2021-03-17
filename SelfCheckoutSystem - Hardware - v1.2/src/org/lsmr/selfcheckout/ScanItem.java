@@ -11,7 +11,8 @@ import org.lsmr.selfcheckout.devices.BarcodeScanner;
  */
 public class ScanItem {
 	private BarcodedItem item;
-	private ArrayList<Barcode> storeItemCode; 
+	private ArrayList<Barcode> itemCode; 
+	private ArrayList<BarcodedItem> allItems;
 	
 	/**
 	 * 
@@ -28,8 +29,12 @@ public class ScanItem {
 	 */
 	
 	public void storeItemCode() {
-		Barcode itemcode = item.getBarcode(); 
-		storeItemCode.add(itemcode);
+		Barcode itemCode = item.getBarcode(); 
+		this.itemCode.add(itemCode);
+	}
+	
+	public void storeItem() {
+		allItems.add(item);
 	}
 	
 	/**
@@ -45,8 +50,12 @@ public class ScanItem {
 	* return the getStoreItemCode arraylist
 	*/
 	
-	public ArrayList<Barcode> getStoreItemCode() {
-		return storeItemCode;
+	public ArrayList<Barcode> getItemCode() {
+		return itemCode;
+	}
+	
+	public ArrayList<BarcodedItem> getStoreItem(){
+		return allItems;
 	}
 }
 
