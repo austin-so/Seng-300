@@ -13,12 +13,16 @@ public class Bagging {
 	 */
 	private Array[] itemWeight;
 	
-	public int itemWeight() {
+	public void getItemWeight() {
 		
+		ScanItem scannedItem = new ScanItem();
+		Array[] temp = scannedItem.getStoredItem();
 		
-		int barcode = items[items.length-1];
-		int weight = 
-		return 0;
+		for(int x=0; x<itemWeight.length; x++) {
+			BarcodedItem i = temp[x];
+			double Weight = i.getWeight();
+			itemWeight[x] = Weight;
+		}
 		
 	}
 	
