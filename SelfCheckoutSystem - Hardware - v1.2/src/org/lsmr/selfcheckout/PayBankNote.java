@@ -14,35 +14,28 @@ import org.lsmr.selfcheckout.devices.UnidirectionalChannel;
 
 
 public class PayBankNote {
-	private BanknoteStorageUnit capacity = new BanknoteStorageUnit(500);
-	private Banknote banknote = new Banknote(0, null);
+	private BanknoteStorageUnit capacity = new BanknoteStorageUnit(5);
+	private Banknote banknote = new Banknote(5, Currency.getInstance(Locale.CANADA));
+	private int[] denominations = {5,10,20,50,100};
+	private BanknoteValidator valid = new BanknoteValidator(Currency.getInstance(Locale.CANADA), denominations);
 	
 	/**
 	 * 
 	 * @param banknote
 	 * 			Allows the user to pay for their items with banknotes
-	 * 
-	 * @throws DisabledException
-	 * 			If the storageunit is disabled
-	 * 
-	 * @throws OverloadException
-	 * 			If the storageunit is full
 	 */			
-	public PayBankNote(Banknote banknote) throws DisabledException, OverloadException {
+	public PayBankNote(Banknote banknote) {
 		this.banknote = banknote;
 		
-		int[] denomination = {5,10,20,50,100};
-		
-		Currency cur = Currency.getInstance(Locale.CANADA);
-		
-		BanknoteValidator valid = new BanknoteValidator(cur, denomination);
 		BanknoteSlot banknoteSlot = new BanknoteSlot(false);
 		BidirectionalChannel<Banknote> ejection = new BidirectionalChannel<Banknote>(banknoteSlot, valid);
 		UnidirectionalChannel<Banknote> accepted = new UnidirectionalChannel<Banknote>(valid);
 		
 		valid.connect(ejection, accepted);
+	}
+	
+	public void acceptBankNote() throws DisabledException {
 		valid.accept(banknote);
-		checkFullStorage();
 	}
 	
 	/**
