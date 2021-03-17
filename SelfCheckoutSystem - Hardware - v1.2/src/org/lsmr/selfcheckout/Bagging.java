@@ -4,14 +4,16 @@ import java.util.Arrays;
 import org.lsmr.selfcheckout.Item;
 import org.lsmr.selfcheckout.devices.ElectronicScale;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 public class Bagging {
 
 	/*
 	 * get latest scanned item and related weight
 	 */
+	private Array[] itemWeight;
 	
 	public int itemWeight() {
-		Item x = new Item();
 		
 		
 		int barcode = items[items.length-1];
