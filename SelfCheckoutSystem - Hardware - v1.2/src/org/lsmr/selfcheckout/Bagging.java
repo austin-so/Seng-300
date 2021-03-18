@@ -1,8 +1,10 @@
 package org.lsmr.selfcheckout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import org.lsmr.selfcheckout.Item;
 import org.lsmr.selfcheckout.devices.ElectronicScale;
+import org.lsmr.selfcheckout.devices.OverloadException;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
@@ -11,30 +13,47 @@ public class Bagging {
 	/*
 	 * get latest scanned item and related weight
 	 */
-	private Array[] itemWeight;
+	private BarcodedItem item;
 	
-	public void getItemWeight() {
+	/**
+	 * @param item 
+	 * 		The item  that was first scanned 
+	 */
+	public Bagging(BarcodedItem item) {
+		this.item = item;
+	}
+	
+	/**
+	 * 
+	 * @return item
+	 * 		return the item being bagged
+	 */
+	public Item getBaggingItem() {
+		return item;
+	}
+
+	public double getItemWeight(int weightLimitInGrams, int sensitivity) throws OverloadException {
+		return item.getWeight();
+	}
+	
+	public void baggingProcess(int weightLimitInGrams, int sensitivity) throws OverloadException {
+		ElectronicScale scale = new ElectronicScale( weightLimitInGrams,  sensitivity);
+
+		scale.enable();
 		
-		ScanItem scannedItem = new ScanItem();
-		Array[] temp = scannedItem.getStoredItem();
+		//if current weight > weight limit in grams, then it will throw exception
 		
-		for(int x=0; x<itemWeight.length; x++) {
-			BarcodedItem i = temp[x];
-			double Weight = i.getWeight();
-			itemWeight[x] = Weight;
+		if(scale.getCurrentWeight() < weightLimitInGrams) {
+			scale.add(item);
+		}
+		else if(scale.getCurrentWeight() > weightLimitInGrams) {
+			scale.remove(item);
+
+		}
+		else {
 		}
 		
 	}
-	
-	/*
-	 * if scale detect added weight +- sensitivity, signal
-	 */
-	
-	/*
-	 * if scale detect remove, throw exception
-	 */
-	public void baggingProcess() {
 
-		
-	}
+
 }
