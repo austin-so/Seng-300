@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import org.lsmr.selfcheckout.Item;
 import org.lsmr.selfcheckout.devices.ElectronicScale;
+import org.lsmr.selfcheckout.devices.OverloadException;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
@@ -12,7 +13,6 @@ public class Bagging {
 	/*
 	 * get latest scanned item and related weight
 	 */
-	private double[] itemWeight;
 	private BarcodedItem item;
 	
 	/**
@@ -24,51 +24,36 @@ public class Bagging {
 	}
 	
 	/**
-	 * @param itemWeight 
-	 * 		The array of item weight, without any new item scanned
+	 * 
+	 * @return item
+	 * 		return the item being bagged
 	 */
-	public Bagging(double[] itemWeight) {
-		this.itemWeight = itemWeight;
+	public Item getBaggingItem() {
+		return item;
+	}
+
+	public double getItemWeight(int weightLimitInGrams, int sensitivity) throws OverloadException {
+		return item.getWeight();
 	}
 	
-	/**
-	 * @param itemWeight 
-	 * 		The array of item weight, without any new item scanned
-	 */
-	public Bagging(double[] itemWeight, BarcodedItem item) {
-		this.itemWeight = itemWeight;
-		this.item = item;
-	}
-	public void getItemWeight() {
+	public void baggingProcess(int weightLimitInGrams, int sensitivity) throws OverloadException {
+		ElectronicScale scale = new ElectronicScale( weightLimitInGrams,  sensitivity);
+
+		scale.enable();
 		
-		ScanItem scannedItem = new ScanItem(item);
-		ArrayList<BarcodedItem> temp = scannedItem .getStoreItem();
+		//if current weight > weight limit in grams, then it will throw exception
 		
-		for(int x=0; x<temp.size(); x++) {
-			BarcodedItem i = temp.get(x);
-			double Weight = i.getWeight();
-			itemWeight[x] = Weight;
+		if(scale.getCurrentWeight() < weightLimitInGrams) {
+			scale.add(item);
+		}
+		else if(scale.getCurrentWeight() > weightLimitInGrams) {
+			scale.remove(item);
+
+		}
+		else {
 		}
 		
 	}
-	
-	public int getTotalWeight() {
-		int totalWeight = 0;
-		for(int x=0; x<itemWeight.length; x++) {
-			totalWeight += itemWeight[x];
-		}
-		return totalWeight; 
-	}
-	
-	/*
-	 * if scale detect added weight +- sensitivity, signal
-	 */
-	
-	/*
-	 * if scale detect remove, throw exception
-	 */
-	public void baggingProcess() {
-		
-		
-	}
+
+
 }
