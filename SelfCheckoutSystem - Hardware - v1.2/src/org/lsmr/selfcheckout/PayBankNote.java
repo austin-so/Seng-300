@@ -50,8 +50,23 @@ public class PayBankNote {
 	 * @throws OverloadException
 	 * 		If the storageunit is full
 	 */
-	public void checkFullStorage() throws DisabledException, OverloadException {
-		capacity.accept(banknote);		
+	public void acceptintoStorage() throws DisabledException, OverloadException {
+		capacity.accept(banknote);	
+		if (!capacity.hasSpace()) {
+			capacity.unload();
+		}
+	}
+	
+	public BanknoteValidator getValid() {
+		return valid;
+	}
+	
+	public BanknoteSlot getBanknoteSlot() {
+		return banknoteSlot;
+	}
+	
+	public BanknoteStorageUnit getCapacity() {
+		return capacity;
 	}
 
 	
